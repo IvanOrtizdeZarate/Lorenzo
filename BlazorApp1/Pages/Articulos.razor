@@ -1,0 +1,41 @@
+﻿@page "/articulos"
+
+@inject IArticulosServicio _articulosServicio
+
+<h3>Articulos</h3>
+
+<br />
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">DESCRIPCION</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var a in listaArticulos)
+        {
+            <tr>
+                <td scope="row">@a.Id</td>
+                <td scope="row">@a.Descripcion</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@code {
+    private Articulo articulo { get; set; } = new Articulo();
+    private List<Articulo> listaArticulos { get; set; } = new List<Articulo>();
+
+    protected override void OnInitialized()
+    {
+       listaArticulos = _articulosServicio.Listar();
+    }
+    private void AgregarArticulo()
+    {
+        _articulosServicio.AgregarArticulo(articulo);
+        articulo = new Articulo();
+        listaArticulos = _articulosServicio.Listar();
+    }
+}
